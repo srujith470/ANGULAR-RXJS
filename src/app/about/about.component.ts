@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { interval, timer, fromEvent } from 'rxjs';
 
 @Component({
   selector: 'about',
@@ -11,19 +12,13 @@ export class AboutComponent implements OnInit {
    }
 
   ngOnInit() {
-    document.addEventListener('click', evt => {
-      console.log(evt);
-      setTimeout(() => {
-        console.log('timeout');
-        let counter = 0;
-        setInterval(() => {
-          console.log(counter);
-          counter++
-        }, 2000)
-    
-      }, 3000);
-  
-    })
-  }
+    //const interval$ = interval(1000);
+    const interval$ = timer(4000,1000); // create observable
+    const click$ = fromEvent(document, 'click'); // create observable
+
+    interval$.subscribe(val => console.log("stream1:" + val)); // subscribe observable
+    interval$.subscribe(val => console.log("stream2:" + val)); // subscribe observable
+    click$.subscribe(evt => console.log(evt)); // subscribe observable
+    }
 
 }
