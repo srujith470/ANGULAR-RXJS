@@ -34,16 +34,25 @@ export class CourseDialogComponent implements OnInit, AfterViewInit {
             releasedAt: [moment(), Validators.required],
             longDescription: [course.longDescription,Validators.required]
         });
-
     }
 
     ngOnInit() {
-
-
-
+        this.form.valueChanges
+        .pipe(
+            filter(()=>this.form.valid),
+            concatMap(changes => this.saveCourses(changes))
+        ).subscribe()
     }
 
-
+    saveCourses(changes){
+        return fromPromise(fetch(`/api/courses/${this.course.id}`,{
+            method:'PUT',
+            body:JSON.stringify(changes),
+            headers:{
+             'context-type':'application/json'
+         }    
+    }));
+    }
 
     ngAfterViewInit() {
 
