@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import {Observable } from 'rxjs';
 import {createHttpObservable} from '../common/util'
 import { map } from 'rxjs/operators';
 @Component({
