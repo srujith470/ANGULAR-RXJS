@@ -18,20 +18,30 @@ export class AboutComponent implements OnInit {
     const interval1$ = interval(1000)
     const interval2$ = interval1$.pipe(map(val => 10 * val));
     const Result$ = merge(interval1$,interval2$)
-    Result$.subscribe(console.log)
+    const sub =Result$.subscribe(console.log)
+
+    setTimeout(() => {
+      sub.unsubscribe()
+      console.log('unsubscribed after 7 seconds')
+    }, 7000);
 
   const result$ = source1$.pipe(concat(source2$,source3$));
   result$.subscribe(console.log)
-    const http$ = createHttpObservable('/api/courses');
+    
+  
+  const http$ = createHttpObservable('/api/courses');
     const courses$ = http$.pipe(map(res => Object.values( res["payload"])));
     courses$.subscribe(  // subscribe observable
       courses => console.log(courses),
       () => {},
       ()=> {console.log('completed')}
     )
-  
-
-}
+      
+   const sub1= http$.subscribe(res => console.log('YO:', res))
+  setTimeout(() => {
+      sub1.unsubscribe()
+  }, 0);
+} 
  
 
 
